@@ -47,8 +47,8 @@ sub said {
         my $notes = $self->get( lc( $message->{'who'} ) ) || [];
 
         foreach ( @{$notes} ) {
-            $self->reply(
-                $message,
+            $self->tell(
+                $message->{'who'},
                 $_->{'who'} . ' asked me to tell you ' . $_->{'message'},
             );
         }
@@ -59,6 +59,7 @@ sub said {
     return;
 }
 
+=pod
 sub _chanjoin {
     my ( $self, $message ) = @_;
     my $notes = $self->get( lc( $message->{'who'} ) ) || [];
@@ -73,6 +74,7 @@ sub _chanjoin {
     $self->unset( lc( $message->{'who'} ) );
     return;
 }
+=cut
 
 sub help {
     return 'msg <nick> [that] <message>';
