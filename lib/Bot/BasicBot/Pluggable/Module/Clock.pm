@@ -12,9 +12,8 @@ my %tz = (
     UTC => 'UTC',
 );
 
-sub said {
-    my ( $self, $message, $priority ) = @_;
-    return unless ( $priority == 2 );
+sub told {
+    my ( $self, $message ) = @_;
 
     ( my $msg_body = $message->{'body'} ) =~ s/^\s+//;
     if ($msg_body eq 'clock?') {
@@ -23,7 +22,7 @@ sub said {
             local $ENV{TZ} = $tz;
             push @dates, strftime("$name: %a, %H:%M %Z", localtime());
         }
-        $self->reply($message, join(' / ', @dates));
+        $self->reply($message, $message->{who} . ': ' . join(' / ', @dates));
     }
 }
 
