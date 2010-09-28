@@ -8,8 +8,12 @@ our $VERSION = 0.01;
 use POSIX qw{ strftime tzset };
 
 my %tz = (
-    SYD => 'Australia/Sydney',
-    UTC => 'UTC',
+    SYD     => 'Australia/Sydney',
+    UTC     => 'UTC',
+    LAX     => 'America/Los_Angeles',
+    NYC     => 'America/New_York',
+    MAD     => 'Europe/Madrid',
+    TOK     => 'Asia/Tokyo',
 );
 
 sub told {
