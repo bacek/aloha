@@ -22,8 +22,8 @@ sub told {
     ( my $msg_body = $message->{'body'} ) =~ s/^\s+//;
     if ($msg_body eq 'clock?') {
         my @dates;
-        while (my ($name, $tz) = each %tz) {
-            local $ENV{TZ} = $tz;
+        for my $name (sort keys %tz) {
+            local $ENV{TZ} = $tz{$name};
             push @dates, strftime("$name: %a, %H:%M %Z", localtime());
         }
         $self->reply($message, $message->{who} . ': ' . join(' / ', @dates));
