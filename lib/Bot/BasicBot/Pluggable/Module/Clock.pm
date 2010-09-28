@@ -7,13 +7,16 @@ use base 'Bot::BasicBot::Pluggable::Module';
 our $VERSION = 0.01;
 use POSIX qw{ strftime tzset };
 
-my %tz = (
-    SYD     => 'Australia/Sydney',
-    UTC     => 'UTC',
-    LAX     => 'America/Los_Angeles',
-    NYC     => 'America/New_York',
-    MAD     => 'Europe/Madrid',
-    TOK     => 'Asia/Tokyo',
+# Sort the Time Zones from West to East.
+my @time_zones = (
+    ['LAX', 'America/Los_Angeles'],
+    ['CHI', 'America/Chicago'],
+    ['NYC', 'America/New_York'],
+    ['UTC', 'UTC'],
+    ['LON', 'Europe/London'],
+    ['BER', 'Europe/Berlin'],
+    ['TOK', 'Asia/Tokyo'],
+    ['SYD', 'Australia/Sydney'],
 );
 
 sub told {
@@ -22,9 +25,9 @@ sub told {
     ( my $msg_body = $message->{'body'} ) =~ s/^\s+//;
     if ($msg_body eq 'clock?') {
         my @dates;
-        for my $name (sort keys %tz) {
-            local $ENV{TZ} = $tz{$name};
-            push @dates, strftime("$name: %a, %H:%M %Z", localtime());
+        for my $tz (@time_zones) {
+            local $ENV{TZ} = $tz->[1];
+            push @dates, strftime("$tz->[0]: %a, %H:%M %Z", localtime());
         }
         $self->reply($message, $message->{who} . ': ' . join(' / ', @dates));
     }
