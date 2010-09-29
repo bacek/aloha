@@ -7,6 +7,12 @@ use base 'Bot::BasicBot::Pluggable::Module';
 our $VERSION = 0.01;
 use POSIX qw{ strftime tzset };
 
+=head1 SYNOPSIS
+
+Simple module to display time in different timezones.
+
+=cut
+
 # Sort the Time Zones from West to East.
 my @time_zones = (
     ['LAX', 'America/Los_Angeles'],
