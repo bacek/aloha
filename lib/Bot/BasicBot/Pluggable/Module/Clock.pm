@@ -29,7 +29,7 @@ sub told {
     my ( $self, $message ) = @_;
 
     ( my $msg_body = $message->{'body'} ) =~ s/^\s+//;
-    if ($msg_body eq 'clock?') {
+    if ($message->{address} && $msg_body eq 'clock?') {
         my @dates;
         for my $tz (@time_zones) {
             local $ENV{TZ} = $tz->[1];
