@@ -121,6 +121,7 @@ sub fallback {
         and ( $mess->{address} or $self->get("user_passive_answer") )
         and length($body) >= $self->get("user_min_length")
         and length($body) <= $self->get("user_max_length")
+        and $body ne 'clock'
         and $body !~ /^(.*?)\s+(is|are)\s+(.*)$/i )
     {
 
