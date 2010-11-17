@@ -38,6 +38,7 @@ sub said {
         push( @{$notes}, {
             'who'     => $message->{'who'},
             'message' => $3,
+            'when'    => time,
         } );
 
         $self->set( $nick, $notes );
@@ -47,10 +48,11 @@ sub said {
         my $notes = $self->get( lc( $message->{'who'} ) ) || [];
 
         foreach ( @{$notes} ) {
-            $self->tell(
-                $message->{'who'},
-                $_->{'who'} . ' asked me to tell you ' . $_->{'message'},
-            );
+            my $msg = $_->{'who'} . ' asked me to tell you ';
+            $msg .= '(' . timedelta_to_string(time - $_->{when}) .') ' if $_->{when};
+            $msg .= $_->{message};
+
+            $self->tell( $message->{'who'}, $msg);
         }
 
         $self->unset( lc( $message->{'who'} ) );
@@ -79,6 +81,33 @@ sub _chanjoin {
 sub help {
     return 'msg <nick> [that] <message>';
 }
+
+use constant TIME_SLICES => (
+                  60 => 'about minute ago',
+             10 * 60 => 'less than 10 minutes ago',
+             45 * 60 => 'about half an hour ago',
+             90 * 60 => 'about an hour ago',
+        24 * 60 * 60 => sub { 'about ' .int($_[0] / ( 60 * 60 )) . ' hours ago' },
+    6 * 24 * 60 * 60 => sub { 'about ' .int($_[0] / ( 24 * 60 * 60 )) . ' days ago' },
+    7 * 24 * 60 * 60 => 'a week ago',
+   14 * 24 * 60 * 60 => 'more than a week ago',
+   21 * 24 * 60 * 60 => 'more than a two weeks ago',
+   40 * 24 * 60 * 60 => 'about a month ago',
+  365 * 24 * 60 * 60 => sub { 'about ' .int($_[0] / ( 30 * 24 * 60 * 60 )) . ' months ago' },
+                  -1 => 'more than a year ago',
+);
+
+use List::MoreUtils qw/ natatime /;
+
+sub timedelta_to_string {
+    my $delta = shift;
+    my $it = natatime 2, TIME_SLICES;
+    while (my ($slice, $msg) = $it->()) {
+        if ($slice == -1 || $slice >= $delta) {
+            return ref($msg) ? $msg->($delta) : $msg;
+        }
+    }
+};
 
 1;
 __END__
