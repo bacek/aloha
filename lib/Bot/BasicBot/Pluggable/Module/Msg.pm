@@ -84,11 +84,11 @@ sub help {
 
 use constant TIME_SLICES => (
                   60 => 'about minute ago',
-             10 * 60 => 'less than 10 minutes ago',
+             30 * 60 => sub { int($_[0] / ( 60 )) . ' minutes ago' },
              45 * 60 => 'about half an hour ago',
              90 * 60 => 'about an hour ago',
-        24 * 60 * 60 => sub { 'about ' .int($_[0] / ( 60 * 60 )) . ' hours ago' },
-    6 * 24 * 60 * 60 => sub { 'about ' .int($_[0] / ( 24 * 60 * 60 )) . ' days ago' },
+        24 * 60 * 60 => sub { 'about ' . int($_[0] / ( 60 * 60 )) . ' hours ago' },
+    6 * 24 * 60 * 60 => sub { 'about ' . int($_[0] / ( 24 * 60 * 60 )) . ' days ago' },
     7 * 24 * 60 * 60 => 'a week ago',
    14 * 24 * 60 * 60 => 'more than a week ago',
    21 * 24 * 60 * 60 => 'more than a two weeks ago',
