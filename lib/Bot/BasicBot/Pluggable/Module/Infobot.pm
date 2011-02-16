@@ -49,6 +49,8 @@ sub told {
     my $body = $mess->{body};
     return unless defined $body;
 
+    $body =~ s{\s*$}{};
+
     # looks like an infobot reply.
     if ( $body =~ s/^:INFOBOT:REPLY (\S+) (.*)$// ) {
         return $self->infobot_reply( $1, $2, $mess );
@@ -270,6 +272,7 @@ sub get_factoid {
 # factoid.
 sub get_raw_factoids {
     my ( $self, $object ) = @_;
+    $object =~ s!\s*$!!;
     my $raw = $self->get( "infobot_" . lc($object) )
       or return ();
 
