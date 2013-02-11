@@ -44,9 +44,9 @@ my $bot = Bot::BasicBot::Pluggable->new(
 
 $bot->load('Auth');
 $bot->load('Loader');
-$bot->load('Infobot');
-$bot->load('Karma');
-$bot->load('Seen');
-$bot->load('Message');
-$bot->load('Maths');
+#$bot->load('Infobot');
+#$bot->load('Karma');
+#$bot->load('Seen');
+#$bot->load('Message');
+#$bot->load('Maths');
 $bot->run();
