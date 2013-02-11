@@ -35,7 +35,7 @@ sub told {
             local $ENV{TZ} = $tz->[1];
             push @dates, strftime("$tz->[0]: %a, %H:%M %Z", localtime());
         }
-        $self->reply($message, $message->{who} . ': ' . join(' / ', @dates));
+        $self->reply($message, join(' / ', @dates));
     }
 }
 
