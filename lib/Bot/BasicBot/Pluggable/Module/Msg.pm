@@ -49,7 +49,7 @@ sub said {
 
         foreach ( @{$notes} ) {
             my $msg = $_->{'who'} . ' asked me to tell you ';
-            $msg .= '(' . timedelta_to_string(time - $_->{when}) .') ' if $_->{when};
+            #$msg .= '(' . timedelta_to_string(time - $_->{when}) .') ' if $_->{when};
             $msg .= $_->{message};
 
             $self->tell( $message->{'who'}, $msg);
