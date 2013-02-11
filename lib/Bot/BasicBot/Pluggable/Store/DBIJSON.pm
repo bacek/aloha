@@ -18,8 +18,6 @@ sub init {
     $self->{dsn}   ||= 'dbi:SQLite:bot-basicbot.sqlite';
     $self->{table} ||= 'basicbot';
     $self->create_table;
-
-    DBI->trace(2);
 }
 
 sub dbh {
